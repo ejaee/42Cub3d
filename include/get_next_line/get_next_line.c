@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ejachoi <ejachoi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: choiejae <choiejae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/18 10:04:31 by choiejae          #+#    #+#             */
-/*   Updated: 2022/07/21 15:01:53 by ejachoi          ###   ########.fr       */
+/*   Updated: 2023/05/20 15:46:50 by choiejae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ static char	*split_to_line(char **backup, char *buf)
 	if (idx_nl == -1)
 	{
 		if (*backup[0] != '\0')
-			line = ft_strndup(*backup, 0, ft_strlen(*backup));
+			line = gnl_strndup(*backup, 0, gnl_strlen(*backup));
 		free(*backup);
 		*backup = NULL;
 	}
 	else
 	{
-		line = ft_strndup(*backup, 0, idx_nl + 1);
+		line = gnl_strndup(*backup, 0, idx_nl + 1);
 		temp_new_backup = \
-		ft_strndup(*backup, idx_nl + 1, ft_strlen(*backup) - idx_nl);
+		gnl_strndup(*backup, idx_nl + 1, gnl_strlen(*backup) - idx_nl);
 		free(*backup);
 		*backup = temp_new_backup;
 	}
@@ -62,7 +62,7 @@ static char	*get_line(int fd, char **backup, char *buf)
 	while (read_byte > 0)
 	{
 		buf[read_byte] = '\0';
-		new_backup = ft_strjoin(*backup, buf);
+		new_backup = gnl_strjoin(*backup, buf);
 		free(*backup);
 		*backup = new_backup;
 		idx_next = is_newline(*backup);
@@ -89,6 +89,6 @@ char	*get_next_line(int fd)
 	if (backup != NULL && is_newline(backup) != -1)
 		return (split_to_line(&backup, buf));
 	if (backup == NULL)
-		backup = ft_strndup("", 0, 0);
+		backup = gnl_strndup("", 0, 0);
 	return (get_line(fd, &backup, buf));
 }

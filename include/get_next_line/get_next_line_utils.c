@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
+/*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ejachoi <ejachoi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: choiejae <choiejae@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/19 15:20:19 by ejachoi           #+#    #+#             */
-/*   Updated: 2022/07/19 20:39:28 by ejachoi          ###   ########.fr       */
+/*   Created: 2022/07/18 10:20:46 by choiejae          #+#    #+#             */
+/*   Updated: 2023/05/20 15:23:52 by choiejae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line_bonus.h"
+#include "get_next_line.h"
 
-int	ft_strlen(const char *s)
+int	gnl_strlen(const char *s)
 {
 	int	cnt;
 
@@ -22,15 +22,15 @@ int	ft_strlen(const char *s)
 	return (cnt);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*gnl_strjoin(char *s1, char *s2)
 {
 	int		idx;
 	int		size_s1;
 	int		size_s2;
 	char	*connected_s;
 
-	size_s1 = ft_strlen(s1);
-	size_s2 = ft_strlen(s2);
+	size_s1 = gnl_strlen(s1);
+	size_s2 = gnl_strlen(s2);
 	connected_s = (char *)malloc(sizeof(char) * (size_s1 + size_s2) + 1);
 	if (!connected_s)
 		return (NULL);
@@ -43,7 +43,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (connected_s);
 }
 
-char	*ft_strndup(const char *src, int start, int num)
+char	*gnl_strndup(const char *src, int start, int num)
 {
 	char	*temp;
 	int		idx_s;
