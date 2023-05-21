@@ -19,6 +19,10 @@
 # define FLOOR "F "
 # define CEILING "C "
 
+# define WALL "1 "
+# define SPACE "0NSEW"
+
+
 # define NO 1
 # define SO 2
 # define WE 3
@@ -52,9 +56,18 @@ typedef struct	s_img
     int     floor_color;
 }				t_img;
 
+typedef struct	s_player
+{
+	char	starting_initial;
+	double		y;
+	double		x;
+	
+}				t_player;
+
 typedef struct	s_map
 {
-	t_img		*img;
+	t_img		img;
+	t_player	player;
 	char		*map_value;
 	char		**saved_map;
 	int			row;
@@ -62,21 +75,11 @@ typedef struct	s_map
 
 }				t_map;
 
-typedef struct	s_player
-{
-	char	starting_initial;
-	double		px;
-	double		py;
-	
-}				t_player;
-
 typedef struct	s_game
 {
 	void	*mlx;
 	void	*win;
-	t_map	*map;
-	int	a;
-
+	t_map	map;
 }				t_game;
 
 
