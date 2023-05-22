@@ -1,6 +1,12 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# define RED    "\033[0;31m"
+# define GREEN  "\033[0;32m"
+# define YELLOW "\033[0;33m"
+# define BLUE   "\033[0;34m"
+# define RESET  "\033[0m"
+
 # define TRUE 1
 # define FALSE 0
 # define ERROR -1
@@ -15,13 +21,11 @@
 # define SOUTH "SO "
 # define WEST "WE "
 # define EAST "EA "
-
 # define FLOOR "F "
 # define CEILING "C "
 
-# define WALL "1 "
-# define SPACE "0NSEW"
-
+# define UNMOVABLE "1 "
+# define MOVABLE "0NSEW"
 
 # define NO 1
 # define SO 2
@@ -42,9 +46,7 @@ typedef enum
 # include "minilibx_opengl_20191021/mlx.h"
 # include <fcntl.h>
 
-
 #include <stdio.h>
-
 
 typedef struct	s_img
 {
@@ -81,6 +83,5 @@ typedef struct	s_game
 	void	*win;
 	t_map	map;
 }				t_game;
-
 
 #endif
