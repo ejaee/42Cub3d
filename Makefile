@@ -1,7 +1,7 @@
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -Iinclude  #-g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -Iinclude  -g #-g3 -fsanitize=address
 # -g3 -fsanitize=address
 # -o2 or -o3
 NAME = cub3D

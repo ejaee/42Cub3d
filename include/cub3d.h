@@ -27,6 +27,7 @@
 #define FLOOR "F "
 #define CEILING "C "
 
+#define MAP_COMPONENT "01NSEW "
 #define UNMOVABLE "1 "
 #define MOVABLE "0NSEW"
 
@@ -73,10 +74,10 @@ typedef enum
 typedef unsigned int t_ui;
 typedef struct s_img
 {
-	char *no;
-	char *so;
-	char *we;
-	char *ea;
+	// char *no;
+	// char *so;
+	// char *we;
+	// char *ea;
 	int ceil_color;
 	int floor_color;
 } t_img;
@@ -112,7 +113,7 @@ typedef struct s_texture
 
 typedef struct s_map
 {
-	t_img img;
+	
 	t_player player;
 
 	// 내 추가
@@ -130,6 +131,7 @@ typedef struct s_game
 	void *mlx;
 	void *win;
 	t_map map;
+	t_img img;
 	t_texture tex[5];
 
 	t_img2 wall;
