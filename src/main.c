@@ -208,17 +208,6 @@ char *get_value_of_addr(char *line)
 	return (res);
 }
 
-bool get_value_of_path(char *path, char **dest)
-{
-	int fd;
-
-	fd = open(path, O_RDONLY);
-	if (fd == -1)
-		exit_with_error("Cannot open xpm file");
-	close(fd);
-	*dest = path;
-	return (true);
-}
 
 int get_value_of_color(char *line)
 {
@@ -270,6 +259,18 @@ void set_type_of_map(t_map *map, t_img *img, char *line)
 {
 	check_saved_component(img);
 	map->map_value = get_value_of_map(map, line);
+}
+
+bool get_value_of_path(char *path, char **dest)
+{
+	int fd;
+
+	fd = open(path, O_RDONLY);
+	if (fd == -1)
+		exit_with_error("Cannot open xpm file");
+	close(fd);
+	*dest = path;
+	return (true);
 }
 
 void set_type_of_component(t_img *img, int type, char *line)
@@ -374,8 +375,7 @@ char *access_information(char *line)
 static void save_texture(t_game *game, int type, char *line)
 {
 	char *tex_path;
-	if (game->tex[type].tex_path_malloc)
-		exit_error(&game->map, "Duplicated Identifier");
+
 	tex_path = access_information(line);
 	// if (check_tex_path(map, tex_path))
 	game->tex[type].tex_path_malloc = ft_strdup(tex_path);
@@ -386,6 +386,7 @@ void set_type(t_game *game, int type, char *line)
 {
 	if (NO <= type && type <= EA)
 	{
+		printf("type is %d\n", type);
 		set_type_of_component(&game->map.img, type, line);
 		save_texture(game, type, line);
 	}
@@ -508,6 +509,8 @@ void img_init(t_game *game)
 	t_texture *tx;
 
 	tx = game->tex;
+
+
 	tx[1].texture.img = mlx_xpm_file_to_image(game->mlx,
 																						tx[1].tex_path_malloc, &(tx[1].width), &(tx[1].height));
 	tx[2].texture.img = mlx_xpm_file_to_image(game->mlx,
