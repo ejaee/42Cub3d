@@ -96,7 +96,7 @@ void	check_color_value(char *line);
 ** =============================================================================
 */
 
-void free_all_data(t_game *game);
+void free_all_data(t_game *game, int idx);
 int moveable(t_game *game, double nx, double ny);
 void move(t_game *g, double angle);
 void rotate(t_game *g, double angle);

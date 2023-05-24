@@ -1,10 +1,7 @@
 #include "cub3d.h"
 
-void free_all_data(t_game *game)
+void free_all_data(t_game *game, int idx)
 {
-	int idx;
-
-	idx = 0;
 	while (++idx <= 4)
 	{
 		if (game->tex[idx].tex_path_malloc)
@@ -409,7 +406,7 @@ int main(int argc, char **argv)
 
 	// printf(" value of textures %s\n ", game.map.tex[0].tex_path_malloc);
 
-	free_all_data(&game);//fixed
+	free_all_data(&game, 0);//fixed
 }
 
 /*-------------------------------------------------------------------*/
