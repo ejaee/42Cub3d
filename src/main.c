@@ -1,425 +1,38 @@
 #include "cub3d.h"
 
-/*----------------------------[ error.c ]----------------------------*/
-
-void exit_with_error(char *message)
-{
-	write(1, message, ft_strlen(message));
-	exit(FAIL);
-}
-
-/*-------------------------------------------------------------------*/
-/*----------------------------[ validation.c ]----------------------------*/
-
-bool is_valid_extention(char *file_name, char *extension)
-{
-	int file_len;
-	int res;
-
-	file_len = ft_strlen(file_name);
-	if (!ft_strncmp(file_name + file_len - 4, extension, 4))
-		res = true;
-	else
-		res = false;
-	return (res);
-}
-
-bool is_contain(char *str, char c)
-{
-	int idx;
-
-	idx = -1;
-	while (str[++idx])
-	{
-		if (str[idx] == c)
-			return (true);
-	}
-	return (false);
-}
-
-void check_saved_component(t_game *game)
-{
-	if (!game->tex[1].tex_path_malloc || !is_valid_extention(game->tex[1].tex_path_malloc, XPM_EXTENSION))
-		exit_with_error("Saved Invalid component no");
-	if (!game->tex[2].tex_path_malloc || !is_valid_extention(game->tex[2].tex_path_malloc, XPM_EXTENSION))
-		exit_with_error("Saved Invalid component so");
-	if (!game->tex[3].tex_path_malloc || !is_valid_extention(game->tex[3].tex_path_malloc, XPM_EXTENSION))
-		exit_with_error("Saved Invalid component we");
-	if (!game->tex[4].tex_path_malloc || !is_valid_extention(game->tex[4].tex_path_malloc, XPM_EXTENSION))
-		exit_with_error("Saved Invalid component ea");
-
-	if (game->img.floor_color == INIT || game->img.ceil_color == INIT ||
-			game->img.floor_color == game->img.ceil_color)
-		exit_with_error("Saved Invalid color value");
-
-}
-
-void check_color_value(char *line)
-{
-	int idx;
-	int jdx;
-	char **split_line;
-
-	split_line = ft_split(line, ',');
-	if (!split_line)
-		exit_with_error("Invalid RGB Format");
-	idx = -1;
-	while (split_line[++idx])
-	{
-		jdx = -1;
-		while (split_line[idx][++jdx])
-			if (!ft_isdigit(split_line[idx][jdx]))
-				exit_with_error("Invalid RGB Format");
-	}
-	if (idx != 3)
-		exit_with_error("Invalid RGB Format");
-	idx = -1;
-	while (split_line[++idx])
-		free(split_line[idx]);
-	free(split_line);
-}
-
-/*-------------------------------------------------------------------*/
-/*----------------------------[ generate_map.c  ]----------------------------*/
-
-static void set_player_position(t_map *map, int col, int row)
-{
-	if (map->player.starting_initial || map->player.y || map->player.x)
-		exit_with_error("duplicated player value");
-	map->player.starting_initial = map->saved_map[col][row];
-	map->player.y = (double)col;
-	map->player.x = (double)row;
-	map->saved_map[col][row] = '0';
-}
-
-static int set_map_component(t_map *map, int col, int row)
-{
-	if (row == 0 || row == (int)ft_strlen(map->saved_map[col]) - 1 ||
-			col == 0 || col == map->row - 1)
-		return (-1);
-	if (map->saved_map[col][row + 1] == ' ' || map->saved_map[col][row - 1] == ' ')
-		return (-1);
-	if ((int)ft_strlen(map->saved_map[col - 1]) <= row || map->saved_map[col - 1][row] == ' ' || map->saved_map[col - 1][row] == '\0')
-		return (-1);
-	if ((int)ft_strlen(map->saved_map[col + 1]) <= row || map->saved_map[col + 1][row] == ' ' || map->saved_map[col + 1][row] == '\0')
-		return (-1);
-	if (map->saved_map[col][row] != '0')
-		set_player_position(map, col, row);
-	return (1);
-}
-
-void set_map(t_map *map)
-{
-	int col;
-	int row;
-
-	col = -1;
-	while (map->saved_map[++col])
-	{
-		row = -1;
-		while (map->saved_map[col][++row])
-		{
-			if (ft_strchr(UNMOVABLE, map->saved_map[col][row]))
-				continue;
-			else if (ft_strchr(MOVABLE, map->saved_map[col][row]))
-			{
-				if (set_map_component(map, col, row) == ERROR)
-					exit_with_error("A component of the map was saved incorrectly");
-			}
-		}
-	}
-	if (!map->player.starting_initial)
-		exit_with_error("Failed to save the player's location value");
-}
-
-void get_map(t_map *map)
-{
-	int col;
-	int row;
-
-	map->saved_map = ft_split(map->map_value, '\n');
-	if (map->saved_map == 0)
-		exit_with_error("Cannot Saved Map");
-	col = -1;
-	row = 0;
-	while (map->saved_map[++col] != 0)
-		if (ft_strlen(map->saved_map[col]) > (size_t)row)
-			row = ft_strlen(map->saved_map[col]);
-	map->col = row;
-	map->row = col;
-	free(map->map_value);
-	map->map_value = NULL;
-}
-
-void generate_map(t_map *map)
-{
-	get_map(map);
-	set_map(map);
-}
-
-/*-------------------------------------------------------------------*/
-/*----------------------------[ set_value.c  ]----------------------------*/
-
-int set_value_of_element(char *value_line, int *idx)
-{
-	int rgb;
-
-	rgb = 0;
-	while (value_line[++(*idx)] && ft_isdigit(value_line[*idx]))
-		rgb = rgb * 10 + (value_line[*idx] - '0');
-	if (rgb < 0 || 255 < rgb)
-		exit_with_error("Error message");
-	return (rgb);
-}
-
-int set_value_of_color(char *value_line)
-{
-	int idx;
-	int r;
-	int g;
-	int b;
-	int color_num;
-
-	check_color_value(value_line);
-	idx = -1;
-	r = set_value_of_element(value_line, &idx) * 256 * 256;
-	g = set_value_of_element(value_line, &idx) * 256;
-	b = set_value_of_element(value_line, &idx);
-	color_num = r + g + b;
-	free(value_line);
-	return (color_num);
-}
-
-/*-------------------------------------------------------------------*/
-/*----------------------------[ get_value.c  ]----------------------------*/
-
-char *get_value_of_addr(char *line)
-{
-	int idx;
-	char **split_line;
-	char *res;
-
-	split_line = ft_split(line, ' ');
-	if (!split_line[1] || split_line[2])
-		exit_with_error("Invalid file contents");
-	res = ft_strdup(split_line[1]);
-	idx = -1;
-	while (split_line[++idx])
-		free(split_line[idx]);
-	free(split_line);
-	return (res);
-}
-
-
-int get_value_of_color(char *line)
-{
-	char *value_line;
-	int color_num;
-
-	if (*line == '\0')
-		exit_with_error("error_message");
-	value_line = get_value_of_addr(line);
-	color_num = set_value_of_color(value_line);
-	return (color_num);
-}
-
-char *get_value_of_map(t_map *map, char *line)
-{
-	char *temp;
-	char *result_value;
-
-	if (map->map_value == 0)
-		temp = ft_strdup("");
-	else
-		temp = ft_strjoin(map->map_value, "\n");
-	free(map->map_value);
-	result_value = ft_strjoin(temp, line);
-	free(temp);
-	return (result_value);
-}
-
-/*-------------------------------------------------------------------*/
-/*----------------------------[ set_type.c  ]----------------------------*/
-
-void set_type_of_color(t_img *img, int type, char *line)
-{
-	if (type == F)
-	{
-		if (img->floor_color != INIT)
-			exit_with_error("already saved the value of F");
-		img->floor_color = get_value_of_color(line);
-	}
-	else if (type == C)
-	{
-		if (img->ceil_color != INIT)
-			exit_with_error("already saved the value of C");
-		img->ceil_color = get_value_of_color(line);
-	}
-}
-
-void set_type_of_map(t_map *map, t_game *game, char *line)
-{
-
-	check_saved_component(game);
-	map->map_value = get_value_of_map(map, line);
-}
-
-bool get_value_of_path(char *path, t_game *game, int idx)
-{
-	int fd;
-
-	fd = open(path, O_RDONLY);
-	if (fd == -1)
-		exit_with_error("Cannot open xpm file");
-	close(fd);
-	game->tex[idx].tex_path_malloc = ft_strdup(path);
-	return (true);
-}
-
-void set_type_of_component(t_game *game, int type, char *line)
-{
-	char *value_line;
-
-	value_line = get_value_of_addr(line);
-	if (type == NO)
-	{
-		if (game->tex[NO].tex_path_malloc || !get_value_of_path(value_line, game, NO))
-			exit_with_error("Invalid NO file");
-	}
-	else if (type == SO)
-	{
-		if (game->tex[SO].tex_path_malloc || !get_value_of_path(value_line, game, SO))
-			exit_with_error("Invalid SO file");
-	}
-	else if (type == WE)
-	{
-		if (game->tex[WE].tex_path_malloc || !get_value_of_path(value_line, game, WE))
-			exit_with_error("Invalid WE file");
-	}
-	else
-	{
-		if (game->tex[EA].tex_path_malloc || !get_value_of_path(value_line, game, EA))
-			exit_with_error("Invalid EA file");
-	}
-	free(value_line);
-}
-
-///    ////// free, error handling /////////
-
 void free_all_data(t_game *game)
 {
-	int i;
+	int idx;
 
-	i = 0;
-	while (++i <= 4)
+	idx = 0;
+	while (++idx <= 4)
 	{
-		if (game->tex[i].tex_path_malloc)
+		if (game->tex[idx].tex_path_malloc)
 		{
-			free(game->tex[i].tex_path_malloc);
-			game->tex[i].tex_path_malloc = NULL;
-			free(game->tex[i].data);
-			game->tex[i].data = NULL;
+			free(game->tex[idx].tex_path_malloc);
+			game->tex[idx].tex_path_malloc = NULL;
+			free(game->tex[idx].data);
+			game->tex[idx].data = NULL;
 		}
 	}
-	// if (game->map.map_value)
-	// 	free(game->map.map_value);
+	if (game->map.map_value)
+		free(game->map.map_value);
 	game->map.map_value = NULL;
 	if (game->map.saved_map)
 	{
-		i = -1;
-		while (game->map.saved_map[++i])
+		idx = -1;
+		while (game->map.saved_map[++idx])
 		{
-			free(game->map.saved_map[i]);
-			game->map.saved_map[i] = NULL;
+			free(game->map.saved_map[idx]);
+			game->map.saved_map[idx] = NULL;
 		}
 		free(game->map.saved_map);
 	}
 }
 
-int exit_event(t_game *game)
-{
-	ft_putendl_fd("EXIT CUB3D", 0);
-	free_all_data(game);
-	exit(1);
-}
-
-void exit_error(t_game *game, char *message)
-{
-	ft_putendl_fd("ERROR", 2);
-	if (message)
-		ft_putendl_fd(message, 2);
-	free_all_data(game);
-	exit(1);
-}
+/*----------------------------[ error.c ]----------------------------*/
 
 
-///////// SAVE TEXTURE - miffy END ///////////////////
-void set_type(t_game *game, int type, char *line)
-{
-	if (NO <= type && type <= EA)
-		set_type_of_component(game, type, line);
-	else if (F <= type && type <= C)
-		set_type_of_color(&game->img, type, line);
-	else
-		set_type_of_map(&game->map, game, line);
-}
-
-/*-------------------------------------------------------------------*/
-/*----------------------------[ get_type.c ]----------------------------*/
-
-int get_type_of_component(char *line)
-{
-	if (!ft_strncmp(line, NORTH, 3))
-		return NO;
-	else if (!ft_strncmp(line, SOUTH, 3))
-		return SO;
-	else if (!ft_strncmp(line, WEST, 3))
-		return WE;
-	else if (!ft_strncmp(line, EAST, 3))
-		return EA;
-	else
-		return FALSE;
-}
-
-int get_type_of_color(char *line)
-{
-	if (!ft_strncmp(line, FLOOR, 2))
-		return F;
-	else if (!ft_strncmp(line, CEILING, 2))
-		return C;
-	else
-		return FALSE;
-}
-
-int get_type_of_map(char *line)
-{
-	int i;
-
-	i = -1;
-	while (line[++i])
-	{
-		if (!is_contain(MAP_COMPONENT, line[i]))
-			return (FALSE);
-	}
-	return (MAP);
-}
-
-int get_type(char *line)
-{
-	int type;
-
-	type = get_type_of_component(line);
-	if (type)
-		return (type);
-	type = get_type_of_color(line);
-	if (type)
-		return (type);
-	type = get_type_of_map(line);
-	return (type);
-}
-
-/*-------------------------------------------------------------------*/
-/*----------------------------[ main.c ]----------------------------*/
 
 int get_file_fd(char *file_name)
 {
@@ -433,67 +46,7 @@ int get_file_fd(char *file_name)
 	return (fd);
 }
 
-void init_game(t_game *game, int fd)
-{
-	int type;
-	char *line;
-
-	ft_memset(game, 0, sizeof(t_game));
-	game->img.floor_color = INIT;
-	game->img.ceil_color = INIT;
-	line = get_next_line(fd);
-	while (line != NULL)
-	{
-		line[ft_strlen(line) - 1] = '\0';
-		if (line[0] != '\0')
-		{
-			type = get_type(line);
-			if (!type)
-				exit_with_error("Invalid type");
-			set_type(game, type, line);
-		}
-		free(line);
-		line = get_next_line(fd);
-	}
-	generate_map(&game->map);
-	close(fd);
-	free(line);
-}
-
-int window_init(t_game *game)
-{
-	game->mlx = mlx_init();
-	if (!game->mlx)
-		return (1);
-	game->win = mlx_new_window(game->mlx, (int)SCREEN_WIDTH,
-														 (int)SCREEN_HEIGHT, "CUB_3D");
-	if (!game->win)
-		return (1);
-	return (0);
-}
-
-void img_init(t_game *game)
-{
-	t_texture *tx;
-
-	tx = game->tex;
-
-
-	tx[1].texture.img = mlx_xpm_file_to_image(game->mlx,
-																						tx[1].tex_path_malloc, &(tx[1].width), &(tx[1].height));
-	tx[2].texture.img = mlx_xpm_file_to_image(game->mlx,
-																						tx[2].tex_path_malloc, &(tx[2].width), &(tx[2].height));
-	tx[3].texture.img = mlx_xpm_file_to_image(game->mlx,
-																						tx[3].tex_path_malloc, &(tx[3].width), &(tx[3].height));
-	tx[4].texture.img = mlx_xpm_file_to_image(game->mlx,
-																						tx[4].tex_path_malloc, &(tx[4].width), &(tx[4].height));
-	game->screen.img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	// game->minimap.img = mlx_new_image(game->mlx, game->miniw, game->minih);
-}
-
-//////////////////////////MOVE  & ROTATE///////////////////////////
-
-static int moveable(t_game *game, double nx, double ny)
+int moveable(t_game *game, double nx, double ny)
 {
 	int x;
 	int y;
@@ -807,34 +360,6 @@ int main_loop(t_game *g)
 	return (0);
 }
 
-void init_coordinates(t_game *g)
-{
-	double angle;
-
-	g->px = g->map.player.y;
-	g->py = g->map.player.x;
-	if (g->map.player.starting_initial == 'N')
-		angle = M_PI;
-	else if (g->map.player.starting_initial == 'E')
-		angle = M_PI_2;
-	else if (g->map.player.starting_initial == 'S')
-		angle = 0;
-	else
-		angle = -M_PI_2;
-	g->dirx = cos(angle);
-	g->diry = sin(angle);
-	g->planex = 0.66 * cos(angle - M_PI_2);
-	g->planey = 0.66 * sin(angle - M_PI_2);
-
-	//printf("init coordinates ::  dirx diry planex planey ::  %f %f %f %f \n", g->dirx, g->diry, g->planex, g->planey);
-
-	
-	// g->miniw = SCREEN_WIDTH * MINIMAP_SCALE; //미니맵은 그냥 축소판
-	// g->minih = SCREEN_HEIGHT * MINIMAP_SCALE;
-	// g->gridw = g->miniw / g->map->col;
-	// g->gridh = g->minih / g->map->row;
-	// g->mousemode = 0;
-}
 
 void	check() {
 	system("leaks --list -- cub3D");
@@ -852,8 +377,8 @@ int main(int argc, char **argv)
 	init_game(&game, fd);
 
 	init_coordinates(&game); 		//game_init
-	window_init(&game);
-	img_init(&game);
+	init_window(&game);
+	init_img(&game);
 	printf(" any problem ??? \n\n");
 
 	mlx_hook(game.win, X_EVENT_KEY_PRESS, 0, &deal_key, &game);
