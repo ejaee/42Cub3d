@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-void free_all_data(t_game *game, int idx)
+void	free_all_data(t_game *game, int idx)
 {
 	while (++idx <= 4)
 	{
@@ -31,7 +31,7 @@ void free_all_data(t_game *game, int idx)
 
 
 
-int get_file_fd(char *file_name)
+int	get_file_fd(char *file_name)
 {
 	int fd;
 
@@ -43,7 +43,7 @@ int get_file_fd(char *file_name)
 	return (fd);
 }
 
-int moveable(t_game *game, double nx, double ny)
+int	moveable(t_game *game, double nx, double ny)
 {
 	int x;
 	int y;
@@ -58,7 +58,7 @@ int moveable(t_game *game, double nx, double ny)
 		return (1);
 }
 
-void move(t_game *g, double angle)
+void	move(t_game *g, double angle)
 {
 	double nx;
 	double ny;
@@ -72,7 +72,7 @@ void move(t_game *g, double angle)
 	g->py = ny;
 }
 
-void rotate(t_game *g, double angle)
+void	rotate(t_game *g, double angle)
 {
 	double tempx;
 	double tempy;
@@ -91,7 +91,7 @@ void rotate(t_game *g, double angle)
 
 /// deal keyboard input //////////////////////
 
-int deal_key(int key_code, t_game *game)
+int	deal_key(int key_code, t_game *game)
 {
 	// printf("any input inside !!\n");
 
@@ -115,7 +115,7 @@ int deal_key(int key_code, t_game *game)
 
 ///////////////////////////////
 
-void setscreen(t_game *g)
+void	setscreen(t_game *g)
 {
 	int y;
 	int x;
@@ -136,7 +136,7 @@ void setscreen(t_game *g)
 	}
 }
 
-void ray_cal_init(t_game *g, int x)
+void	ray_cal_init(t_game *g, int x)
 {
 	g->camerax = 2 * x / (double)(SCREEN_WIDTH - 1) - 1;
 	g->raydirx = g->dirx + g->planex * g->camerax;
@@ -151,7 +151,7 @@ void ray_cal_init(t_game *g, int x)
 	// 	g->deltadistx, g->deltadisty, g->hit  );
 }
 
-void getsidedist(t_game *g)
+void	getsidedist(t_game *g)
 {
 	if (g->raydirx < 0)
 	{
@@ -175,7 +175,7 @@ void getsidedist(t_game *g)
 	}
 }
 
-void dda(t_game *g)
+void	dda(t_game *g)
 {
 	//printf(" \n\n 1   ------------  inside dda \n\n");
 	while (g->hit == 0)
@@ -216,7 +216,7 @@ void dda(t_game *g)
 	// 이거 내가 공식 바꾼건데 제대로 굴러가는거 같긴 함. 기왕이면 설명 가능한 수식으로 ...
 }
 
-void getdrawpoint(t_game *g)
+void	getdrawpoint(t_game *g)
 {
 	g->lineheight = (int)(SCREEN_HEIGHT / g->perpwalldist); // 화면에 표시될 벽 높이
 	g->drawstart = (-1 * g->lineheight / 2) + (SCREEN_HEIGHT / 2);
@@ -227,7 +227,7 @@ void getdrawpoint(t_game *g)
 		g->drawend = SCREEN_HEIGHT - 1;
 }
 
-t_texture getwalltexture(t_game *g)
+t_texture	getwalltexture(t_game *g)
 {
 	if (g->side == 0)
 	{
@@ -245,7 +245,7 @@ t_texture getwalltexture(t_game *g)
 	}
 }
 
-void cal_texture(t_game *g, t_texture wall_tex)
+void	cal_texture(t_game *g, t_texture wall_tex)
 {
 	if (g->side == 0)
 		g->wallx = g->py + g->perpwalldist * g->raydiry;
@@ -277,7 +277,7 @@ void cal_texture(t_game *g, t_texture wall_tex)
 	//  g->texpos = 0;
 }
 
-void drawline(t_game *g, t_texture wall_tex, int x)
+void	drawline(t_game *g, t_texture wall_tex, int x)
 {
 	int color;
 	int y;
@@ -301,7 +301,7 @@ void drawline(t_game *g, t_texture wall_tex, int x)
 	}
 }
 
-void cast_one_ray(t_game *g, int x)
+void	cast_one_ray(t_game *g, int x)
 {
 	t_texture wall_tex;
 //	printf(":::  1  : -------------x is %d -----------\n", x);
@@ -329,7 +329,7 @@ void cast_one_ray(t_game *g, int x)
 	drawline(g, wall_tex, x);
 }
 
-int main_loop(t_game *g)
+int	main_loop(t_game *g)
 {
 	//printf("1   :  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 
@@ -362,7 +362,7 @@ void	check() {
 	system("leaks --list -- cub3D");
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	atexit(check);
 	int fd;

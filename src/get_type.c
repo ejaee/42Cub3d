@@ -1,32 +1,32 @@
 #include "../include/cub3d.h"
 
-int get_type_of_component(char *line)
+int	get_type_of_component(char *line)
 {
 	if (!ft_strncmp(line, NORTH, 3))
-		return NO;
+		return (NO);
 	else if (!ft_strncmp(line, SOUTH, 3))
-		return SO;
+		return (SO);
 	else if (!ft_strncmp(line, WEST, 3))
-		return WE;
+		return (WE);
 	else if (!ft_strncmp(line, EAST, 3))
-		return EA;
+		return (EA);
 	else
-		return FALSE;
+		return (FALSE);
 }
 
-int get_type_of_color(char *line)
+int	get_type_of_color(char *line)
 {
 	if (!ft_strncmp(line, FLOOR, 2))
-		return F;
+		return (F);
 	else if (!ft_strncmp(line, CEILING, 2))
-		return C;
+		return (C);
 	else
-		return FALSE;
+		return (FALSE);
 }
 
-int get_type_of_map(char *line)
+int	get_type_of_map(char *line)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (line[++i])
@@ -37,9 +37,9 @@ int get_type_of_map(char *line)
 	return (MAP);
 }
 
-int get_type(char *line)
+int	get_type(char *line)
 {
-	int type;
+	int	type;
 
 	type = get_type_of_component(line);
 	if (type)

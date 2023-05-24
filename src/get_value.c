@@ -1,10 +1,10 @@
 #include "../include/cub3d.h"
 
-char *get_value_of_addr(char *line)
+char	*get_value_of_addr(char *line)
 {
-	int idx;
-	char **split_line;
-	char *res;
+	int		idx;
+	char	**split_line;
+	char	*res;
 
 	split_line = ft_split(line, ' ');
 	if (!split_line[1] || split_line[2])
@@ -17,10 +17,10 @@ char *get_value_of_addr(char *line)
 	return (res);
 }
 
-int get_value_of_color(char *line)
+int	get_value_of_color(char *line)
 {
-	char *value_line;
-	int color_num;
+	char	*value_line;
+	int		color_num;
 
 	if (*line == '\0')
 		exit_with_error("error_message");
@@ -29,10 +29,10 @@ int get_value_of_color(char *line)
 	return (color_num);
 }
 
-char *get_value_of_map(t_map *map, char *line)
+char	*get_value_of_map(t_map *map, char *line)
 {
-	char *temp;
-	char *result_value;
+	char	*temp;
+	char	*result_value;
 
 	if (map->map_value == 0)
 		temp = ft_strdup("");
@@ -44,9 +44,9 @@ char *get_value_of_map(t_map *map, char *line)
 	return (result_value);
 }
 
-bool get_value_of_path(char *path, t_game *game, int idx)
+bool	get_value_of_path(char *path, t_game *game, int idx)
 {
-	int fd;
+	int	fd;
 
 	fd = open(path, O_RDONLY);
 	if (fd == -1)

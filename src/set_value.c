@@ -1,8 +1,8 @@
 #include "../include/cub3d.h"
 
-int set_value_of_element(char *value_line, int *idx)
+int	set_value_of_element(char *value_line, int *idx)
 {
-	int rgb;
+	int	rgb;
 
 	rgb = 0;
 	while (value_line[++(*idx)] && ft_isdigit(value_line[*idx]))
@@ -12,13 +12,13 @@ int set_value_of_element(char *value_line, int *idx)
 	return (rgb);
 }
 
-int set_value_of_color(char *value_line)
+int	set_value_of_color(char *value_line)
 {
-	int idx;
-	int r;
-	int g;
-	int b;
-	int color_num;
+	int	idx;
+	int	r;
+	int	g;
+	int	b;
+	int	color_num;
 
 	check_color_value(value_line);
 	idx = -1;

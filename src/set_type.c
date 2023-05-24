@@ -1,34 +1,30 @@
 #include "../include/cub3d.h"
 
-void set_type_of_component(t_game *game, int type, char *line)
+void	set_type_of_component(t_game *game, int type, char *line)
 {
-	char *value_line;
+	char	*value_line;
 
 	value_line = get_value_of_addr(line);
 	if (type == NO)
-	{
-		if (game->tex[NO].tex_path_malloc || !get_value_of_path(value_line, game, NO))
+		if (game->tex[NO].tex_path_malloc \
+			|| !get_value_of_path(value_line, game, NO))
 			exit_with_error("Invalid NO file");
-	}
 	else if (type == SO)
-	{
-		if (game->tex[SO].tex_path_malloc || !get_value_of_path(value_line, game, SO))
+		if (game->tex[SO].tex_path_malloc \
+			|| !get_value_of_path(value_line, game, SO))
 			exit_with_error("Invalid SO file");
-	}
 	else if (type == WE)
-	{
-		if (game->tex[WE].tex_path_malloc || !get_value_of_path(value_line, game, WE))
+		if (game->tex[WE].tex_path_malloc \
+			|| !get_value_of_path(value_line, game, WE))
 			exit_with_error("Invalid WE file");
-	}
 	else
-	{
-		if (game->tex[EA].tex_path_malloc || !get_value_of_path(value_line, game, EA))
+		if (game->tex[EA].tex_path_malloc \
+			|| !get_value_of_path(value_line, game, EA))
 			exit_with_error("Invalid EA file");
-	}
 	free(value_line);
 }
 
-void set_type_of_color(t_img *img, int type, char *line)
+void	set_type_of_color(t_img *img, int type, char *line)
 {
 	if (type == F)
 	{
@@ -44,15 +40,13 @@ void set_type_of_color(t_img *img, int type, char *line)
 	}
 }
 
-void set_type_of_map(t_map *map, t_game *game, char *line)
+void	set_type_of_map(t_map *map, t_game *game, char *line)
 {
-
 	check_saved_component(game);
 	map->map_value = get_value_of_map(map, line);
 }
 
-
-void set_type(t_game *game, int type, char *line)
+void	set_type(t_game *game, int type, char *line)
 {
 	if (NO <= type && type <= EA)
 		set_type_of_component(game, type, line);

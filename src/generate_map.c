@@ -1,6 +1,6 @@
 #include "../include/cub3d.h"
 
-void set_player_position(t_map *map, int col, int row)
+void	set_player_position(t_map *map, int col, int row)
 {
 	if (map->player.starting_initial || map->player.y || map->player.x)
 		exit_with_error("duplicated player value");
@@ -10,26 +10,31 @@ void set_player_position(t_map *map, int col, int row)
 	map->saved_map[col][row] = '0';
 }
 
-int set_map_component(t_map *map, int col, int row)
+int	set_map_component(t_map *map, int col, int row)
 {
-	if (row == 0 || row == (int)ft_strlen(map->saved_map[col]) - 1 ||
+	if (row == 0 || row == (int)ft_strlen(map->saved_map[col]) - 1 || \
 			col == 0 || col == map->row - 1)
 		return (-1);
-	if (map->saved_map[col][row + 1] == ' ' || map->saved_map[col][row - 1] == ' ')
+	if (map->saved_map[col][row + 1] == ' ' || \
+		map->saved_map[col][row - 1] == ' ')
 		return (-1);
-	if ((int)ft_strlen(map->saved_map[col - 1]) <= row || map->saved_map[col - 1][row] == ' ' || map->saved_map[col - 1][row] == '\0')
+	if ((int)ft_strlen(map->saved_map[col - 1]) <= row || \
+		map->saved_map[col - 1][row] == ' ' || \
+		map->saved_map[col - 1][row] == '\0')
 		return (-1);
-	if ((int)ft_strlen(map->saved_map[col + 1]) <= row || map->saved_map[col + 1][row] == ' ' || map->saved_map[col + 1][row] == '\0')
+	if ((int)ft_strlen(map->saved_map[col + 1]) <= row || \
+		map->saved_map[col + 1][row] == ' ' || \
+		map->saved_map[col + 1][row] == '\0')
 		return (-1);
 	if (map->saved_map[col][row] != '0')
 		set_player_position(map, col, row);
 	return (1);
 }
 
-void set_map(t_map *map)
+void	set_map(t_map *map)
 {
-	int col;
-	int row;
+	int	col;
+	int	row;
 
 	col = -1;
 	while (map->saved_map[++col])
@@ -38,11 +43,12 @@ void set_map(t_map *map)
 		while (map->saved_map[col][++row])
 		{
 			if (ft_strchr(UNMOVABLE, map->saved_map[col][row]))
-				continue;
+				continue ;
 			else if (ft_strchr(MOVABLE, map->saved_map[col][row]))
 			{
 				if (set_map_component(map, col, row) == ERROR)
-					exit_with_error("A component of the map was saved incorrectly");
+					exit_with_error("A component of the map \
+						was saved incorrectly");
 			}
 		}
 	}
@@ -50,10 +56,10 @@ void set_map(t_map *map)
 		exit_with_error("Failed to save the player's location value");
 }
 
-void get_map(t_map *map)
+void	get_map(t_map *map)
 {
-	int col;
-	int row;
+	int	col;
+	int	row;
 
 	map->saved_map = ft_split(map->map_value, '\n');
 	if (map->saved_map == 0)
@@ -69,7 +75,7 @@ void get_map(t_map *map)
 	map->map_value = NULL;
 }
 
-void generate_map(t_map *map)
+void	generate_map(t_map *map)
 {
 	get_map(map);
 	set_map(map);
