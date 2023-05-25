@@ -16,6 +16,11 @@ SRCS =	src/main.c			\
 		src/set_value.c		\
 		src/init.c			\
 		src/validation.c	\
+		src/input_key.c \
+		src/set_ray.c \
+		src/set_texture.c \
+		src/raycast.c \
+		src/draw_line.c \
 
 
 OBJS = $(SRCS:.c=.o)

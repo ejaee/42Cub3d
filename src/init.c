@@ -1,9 +1,9 @@
 #include "../include/cub3d.h"
 
-void	init_game(t_game *game, int fd)
+void init_game(t_game *game, int fd)
 {
-	int		type;
-	char	*line;
+	int type;
+	char *line;
 
 	ft_memset(game, 0, sizeof(t_game));
 	game->img.floor_color = INIT;
@@ -27,12 +27,12 @@ void	init_game(t_game *game, int fd)
 	free(line);
 }
 
-void	init_coordinates(t_game *g)
+void init_coordinates(t_game *g)
 {
-	double	angle;
+	double angle;
 
-	g->px = g->map.player.y;
-	g->py = g->map.player.x;
+	g->px = g->map.player.y + 0.5f;
+	g->py = g->map.player.x + 0.5f;
 	if (g->map.player.starting_initial == 'N')
 		angle = M_PI;
 	else if (g->map.player.starting_initial == 'E')
@@ -46,9 +46,8 @@ void	init_coordinates(t_game *g)
 	g->planex = 0.66 * cos(angle - M_PI_2);
 	g->planey = 0.66 * sin(angle - M_PI_2);
 
-	//printf("init coordinates ::  dirx diry planex planey ::  %f %f %f %f \n", g->dirx, g->diry, g->planex, g->planey);
+	// printf("init coordinates ::  dirx diry planex planey ::  %f %f %f %f \n", g->dirx, g->diry, g->planex, g->planey);
 
-	
 	// g->miniw = SCREEN_WIDTH * MINIMAP_SCALE; //미니맵은 그냥 축소판
 	// g->minih = SCREEN_HEIGHT * MINIMAP_SCALE;
 	// g->gridw = g->miniw / g->map->col;
@@ -56,21 +55,21 @@ void	init_coordinates(t_game *g)
 	// g->mousemode = 0;
 }
 
-int	init_window(t_game *game)
+int init_window(t_game *game)
 {
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		return (1);
-	game->win = mlx_new_window(game->mlx, (int)SCREEN_WIDTH, \
+	game->win = mlx_new_window(game->mlx, (int)SCREEN_WIDTH,
 		(int)SCREEN_HEIGHT, "CUB_3D");
 	if (!game->win)
 		return (1);
 	return (0);
 }
 
-void	init_img(t_game *game)
+void init_img(t_game *game)
 {
-	t_texture	*tx;
+	t_texture *tx;
 
 	tx = game->tex;
 	tx[1].texture.img = mlx_xpm_file_to_image(game->mlx, \
