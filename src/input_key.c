@@ -42,10 +42,7 @@ void parallel_move(t_game *g, double angle)
   nx = g->px + (g->dirx * cos(angle) - g->diry * sin(angle)) * M_UNIT;
   ny = g->py + (g->dirx * sin(angle) + g->diry * cos(angle)) * M_UNIT;
 
-  if (!moveable(g, nx, ny) || !moveable(g, -nx + g->planex * 0.25, ny + g->planey * 0.25) ||
-      !moveable(g, nx + g->planex * 0.25, ny + g->planey * 0.25) ||
-      !moveable(g, -nx + g->planex * 0.25, ny - g->planey * 0.25) ||
-      !moveable(g, nx + g->planex * 0.25, ny - g->planey * 0.25))
+  if (!moveable(g, nx, ny))
     return;
   g->px = nx;
   g->py = ny;
@@ -53,15 +50,21 @@ void parallel_move(t_game *g, double angle)
 
 void rotate_move(t_game *g, double angle)
 {
-  double tempx;
-  double tempy;
+  double cos_angle;
+  double sin_angle;
+  double new_dirx;
+  double new_diry;
+  double new_planex;
+  double new_planey;
 
-  tempx = g->dirx;
-  tempy = g->diry;
-  g->dirx = tempx * cos(angle) - tempy * sin(angle);
-  g->diry = tempx * sin(angle) + tempy * cos(angle);
-  tempx = g->planex;
-  tempy = g->planey;
-  g->planex = tempx * cos(angle) - tempy * sin(angle);
-  g->planey = tempx * sin(angle) + tempy * cos(angle);
+  cos_angle = cos(angle);
+  sin_angle = sin(angle);
+  new_dirx = g->dirx * cos_angle - g->diry * sin_angle;
+  new_diry = g->dirx * sin_angle + g->diry * cos_angle;
+  new_planex = g->planex * cos_angle - g->planey * sin_angle;
+  new_planey = g->planex * sin_angle + g->planey * cos_angle;
+  g->dirx = new_dirx;
+  g->diry = new_diry;
+  g->planex = new_planex;
+  g->planey = new_planey;
 }

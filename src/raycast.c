@@ -5,11 +5,7 @@ void cast_one_ray(t_game *g, int x)
 	t_texture wall_tex;
 	
 	ray_cal_init(g, x);
-	
-	//getsidedist(g);
-
 	dda(g);
-
 	getdrawpoint(g);
 
 	wall_tex = getwalltexture(g);

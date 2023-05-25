@@ -108,7 +108,7 @@ int deal_key(int key_code, t_game *game);
 
 void draw_background(t_game *g);
 void ray_cal_init(t_game *g, int x);
-void getsidedist(t_game *g);
+void get_sidedist(t_game *g);
 
 /*
 ** =============================================================================
