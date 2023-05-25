@@ -45,12 +45,28 @@ void	check_saved_component(t_game *game)
 		exit_with_error("Saved Invalid color value");
 }
 
+void	check_color_value_comma(char *line)
+{
+	int	cnt;
+
+	cnt = 0;
+	while (*line)
+	{
+		if (*line == ',')
+			cnt++;
+		line++;
+	}
+	if (cnt != 2)
+		exit_with_error("Invalid RGB Format(comma)");
+}
+
 void	check_color_value(char *line)
 {
 	int		idx;
 	int		jdx;
 	char	**split_line;
 
+	check_color_value_comma(line);
 	split_line = ft_split(line, ',');
 	if (!split_line)
 		exit_with_error("Invalid RGB Format");
