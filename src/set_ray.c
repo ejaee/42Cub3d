@@ -1,6 +1,6 @@
 #include "../include/cub3d.h"
 
-void draw_background(t_game *g)
+void  draw_background(t_game *g)
 {
   int y;
   int x;

@@ -23,7 +23,7 @@ int	get_value_of_color(char *line)
 	int		color_num;
 
 	if (*line == '\0')
-		exit_with_error("error_message");
+		exit_with_error("ReadLine is empty");
 	value_line = get_value_of_addr(line);
 	color_num = set_value_of_color(value_line);
 	return (color_num);

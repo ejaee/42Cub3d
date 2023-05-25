@@ -57,7 +57,7 @@ void	check_color_value_comma(char *line)
 		line++;
 	}
 	if (cnt != 2)
-		exit_with_error("Invalid RGB Format(comma)");
+		exit_with_error("Invalid RGB format(comma)");
 }
 
 void	check_color_value(char *line)
@@ -69,17 +69,17 @@ void	check_color_value(char *line)
 	check_color_value_comma(line);
 	split_line = ft_split(line, ',');
 	if (!split_line)
-		exit_with_error("Invalid RGB Format");
+		exit_with_error("Invalid RGB format(Does not contain a value)");
 	idx = -1;
 	while (split_line[++idx])
 	{
 		jdx = -1;
 		while (split_line[idx][++jdx])
 			if (!ft_isdigit(split_line[idx][jdx]))
-				exit_with_error("Invalid RGB Format");
+				exit_with_error("Invalid RGB format(Contains a non-numeric value)");
 	}
 	if (idx != 3)
-		exit_with_error("Invalid RGB Format");
+		exit_with_error("Invalid RGB format(Value exceeds 3)");
 	idx = -1;
 	while (split_line[++idx])
 		free(split_line[idx]);

@@ -2,6 +2,17 @@
     "files.associations": {
         "stdio.h": "c",
         "libft.h": "c",
-        "get_next_line.h": "c"
+        "get_next_line.h": "c",
+        "__hash_table": "c",
+        "__tuple": "c",
+        "array": "c",
+        "type_traits": "c",
+        "limits": "c",
+        "ratio": "c",
+        "tuple": "c",
+        "variant": "c",
+        "chrono": "c",
+        "compare": "c",
+        "cstddef": "c"
     }
 }

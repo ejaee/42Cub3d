@@ -3,7 +3,7 @@
 void	set_player_position(t_map *map, int col, int row)
 {
 	if (map->player.starting_initial || map->player.y || map->player.x)
-		exit_with_error("duplicated player value");
+		exit_with_error("Duplicated player value");
 	map->player.starting_initial = map->saved_map[col][row];
 	map->player.y = (double)col;
 	map->player.x = (double)row;
@@ -63,7 +63,7 @@ void	get_map(t_map *map)
 
 	map->saved_map = ft_split(map->map_value, '\n');
 	if (map->saved_map == 0)
-		exit_with_error("Cannot Saved Map");
+		exit_with_error("Cannot saved map");
 	col = -1;
 	row = 0;
 	while (map->saved_map[++col] != 0)
