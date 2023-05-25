@@ -49,19 +49,15 @@ void	parallel_move(t_game *g, double angle)
 
 void	rotate_move(t_game *g, double angle)
 {
-	double	cos_angle;
-	double	sin_angle;
 	double	new_dirx;
 	double	new_diry;
 	double	new_planex;
 	double	new_planey;
 
-	cos_angle = cos(angle);
-	sin_angle = sin(angle);
-	new_dirx = g->dirx * cos_angle - g->diry * sin_angle;
-	new_diry = g->dirx * sin_angle + g->diry * cos_angle;
-	new_planex = g->planex * cos_angle - g->planey * sin_angle;
-	new_planey = g->planex * sin_angle + g->planey * cos_angle;
+	new_dirx = g->dirx * cos(angle) - g->diry * sin(angle);
+	new_diry = g->dirx * sin(angle) + g->diry * cos(angle);
+	new_planex = g->planex * cos(angle) - g->planey * sin(angle);
+	new_planey = g->planex * sin(angle) + g->planey * cos(angle);
 	g->dirx = new_dirx;
 	g->diry = new_diry;
 	g->planex = new_planex;

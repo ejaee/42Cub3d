@@ -23,16 +23,15 @@ void	draw_background(t_game *g)
 
 void	ray_cal_init(t_game *g, int x)
 {
-	g->camerax = 2 * x / (double)(SCREEN_WIDTH - 1) - 1;
-	g->raydirx = g->dirx + g->planex * g->camerax;
-	g->raydiry = g->diry + g->planey * g->camerax;
-	g->mapx = (int)(g->px);
-	g->mapy = (int)(g->py);
-	g->deltadistx = (g->raydiry == 0) ? 0 : ((g->raydirx == 0) ? 1 : fabs(1 / g->raydirx));
-	g->deltadisty = (g->raydirx == 0) ? 0 : ((g->raydiry == 0) ? 1 : fabs(1 / g->raydiry));
-	// 이 부분 유도 과정 그림 그려놓기
-	get_sidedist(g);
-	g->hit = 0;
+  g->camerax = 2 * x / (double)(SCREEN_WIDTH - 1) - 1;
+  g->raydirx = g->dirx + g->planex * g->camerax;
+  g->raydiry = g->diry + g->planey * g->camerax;
+  g->mapx = (int)(g->px);
+  g->mapy = (int)(g->py);
+  g->deltadistx = (g->raydiry == 0) ? 0 : ((g->raydirx == 0) ? 1 : fabs(1 / g->raydirx));
+  g->deltadisty = (g->raydirx == 0) ? 0 : ((g->raydiry == 0) ? 1 : fabs(1 / g->raydiry));
+  get_sidedist(g);
+  g->hit = 0;
 }
 
 void	get_sidedist(t_game *g)

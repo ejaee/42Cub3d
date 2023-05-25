@@ -2,10 +2,23 @@
 
 t_texture	get_texture(t_game *g)
 {
+	t_texture	texture;
+
 	if (g->side == 0)
-		return (g->tex[g->stepx == -1 ? WE : EA]);
+	{
+		if (g->stepx == -1)
+			texture = g->tex[WE];
+		else
+			texture = g->tex[EA];
+	}
 	else
-		return (g->tex[g->stepy == -1 ? NO : SO]);
+	{
+		if (g->stepy == -1)
+			texture = g->tex[NO];
+		else
+			texture = g->tex[SO];
+	}
+	return (texture);
 }
 
 void	cal_texture(t_game *g, t_texture wall_tex)
@@ -14,13 +27,13 @@ void	cal_texture(t_game *g, t_texture wall_tex)
 		g->wallx = g->py + g->perpwalldist * g->raydiry;
 	else
 		g->wallx = g->px + g->perpwalldist * g->raydirx;
-	g->wallx -= floor((g->wallx)); // x좌표 사각형 왼쪽위 니까 내림하는거 필요없이 map으로 갈겨도 상관 무
+	g->wallx -= floor((g->wallx));
 	g->texx = (int)(g->wallx * (double)(wall_tex.width));
 	if (g->side == 0 && g->raydirx > 0)
 		g->texx = wall_tex.width - g->texx - 1;
 	if (g->side == 1 && g->raydiry < 0)
 		g->texx = wall_tex.width - g->texx - 1;
-	g->step = 1.0 * wall_tex.height / g->lineheight; // -> 세로줄 내려갈 때 시작하는지점.
+	g->step = 1.0 * wall_tex.height / g->lineheight;
 	g->texpos = (g->drawstart - SCREEN_HEIGHT / 2 + g->lineheight / 2);
-	g->texpos *= g->step; // 이거 모르겠다.
+	g->texpos *= g->step;
 }
