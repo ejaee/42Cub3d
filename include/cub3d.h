@@ -116,7 +116,7 @@ void get_sidedist(t_game *g);
 ** =============================================================================
 */
 
-t_texture getwalltexture(t_game *g);
+t_texture get_texture(t_game *g);
 void cal_texture(t_game *g, t_texture wall_tex);
 
 /*
@@ -145,7 +145,5 @@ void drawline(t_game *g, t_texture wall_tex, int x);
 */
 
 void free_all_data(t_game *game, int idx);
-
-
 
 #endif
