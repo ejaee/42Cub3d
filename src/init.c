@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bcho <bcho@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/25 17:12:55 by bcho              #+#    #+#             */
+/*   Updated: 2023/05/25 17:15:13 by bcho             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/cub3d.h"
 
 void	init_game(t_game *game, int fd)
@@ -45,12 +57,6 @@ void	init_coordinates(t_game *g)
 	g->diry = sin(angle);
 	g->planex = 0.66 * cos(angle - M_PI_2);
 	g->planey = 0.66 * sin(angle - M_PI_2);
-	// printf("init coordinates ::  dirx diry planex planey ::  %f %f %f %f \n", g->dirx, g->diry, g->planex, g->planey);
-	// g->miniw = SCREEN_WIDTH * MINIMAP_SCALE; //미니맵은 그냥 축소판
-	// g->minih = SCREEN_HEIGHT * MINIMAP_SCALE;
-	// g->gridw = g->miniw / g->map->col;
-	// g->gridh = g->minih / g->map->row;
-	// g->mousemode = 0;
 }
 
 int	init_window(t_game *game)
@@ -79,5 +85,4 @@ void	init_img(t_game *game)
 	tx[4].texture.img = mlx_xpm_file_to_image(game->mlx, \
 		tx[4].tex_path_malloc, &(tx[4].width), &(tx[4].height));
 	game->screen.img = mlx_new_image(game->mlx, SCREEN_WIDTH, SCREEN_HEIGHT);
-	// game->minimap.img = mlx_new_image(game->mlx, game->miniw, game->minih);
 }
