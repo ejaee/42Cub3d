@@ -1,6 +1,6 @@
 #include "../include/cub3d.h"
 
-void dda(t_game *g)
+void	dda(t_game *g)
 {
 	while (g->hit == 0)
 	{
@@ -25,7 +25,7 @@ void dda(t_game *g)
 		g->perpwalldist = (g->mapy - g->py + (1 - g->stepy) / 2) / g->raydiry;
 }
 
-void getdrawpoint(t_game *g)
+void	getdrawpoint(t_game *g)
 {
 	g->lineheight = (int)(SCREEN_HEIGHT / g->perpwalldist); // 화면에 표시될 벽 높이
 	g->drawstart = (-1 * g->lineheight / 2) + (SCREEN_HEIGHT / 2);
@@ -36,10 +36,10 @@ void getdrawpoint(t_game *g)
 		g->drawend = SCREEN_HEIGHT - 1;
 }
 
-void drawline(t_game *g, t_texture wall_tex, int x)
+void	drawline(t_game *g, t_texture wall_tex, int x)
 {
-	int color;
-	int y;
+	int	color;
+	int	y;
 
 	y = g->drawstart - 1;
 	while (++y < g->drawend)

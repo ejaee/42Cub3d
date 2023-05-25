@@ -76,7 +76,8 @@ void	check_color_value(char *line)
 		jdx = -1;
 		while (split_line[idx][++jdx])
 			if (!ft_isdigit(split_line[idx][jdx]))
-				exit_with_error("Invalid RGB format(Contains a non-numeric value)");
+				exit_with_error("Invalid RGB format\
+					(Contains a non-numeric value)");
 	}
 	if (idx != 3)
 		exit_with_error("Invalid RGB format(Value exceeds 3)");

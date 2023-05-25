@@ -1,6 +1,6 @@
 #include "cub3d.h"
 
-void free_all_data(t_game *game, int idx)
+void	free_all_data(t_game *game, int idx)
 {
 	while (++idx <= 4)
 	{
@@ -27,11 +27,9 @@ void free_all_data(t_game *game, int idx)
 	}
 }
 
-/*----------------------------[ error.c ]----------------------------*/
-
-int get_file_fd(char *file_name)
+int	get_file_fd(char *file_name)
 {
-	int fd;
+	int	fd;
 
 	if (!is_valid_extention(file_name, MAP_EXTENSION))
 		exit_with_error("Invalid extension");
@@ -41,29 +39,21 @@ int get_file_fd(char *file_name)
 	return (fd);
 }
 
-// void check()
-// {
-// 	system("leaks --list -- cub3D");
-// }
-
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	// atexit(check);
-	int fd;
-	t_game game;
+	int		fd;
+	t_game	game;
 
 	if (argc != 2)
 		exit_with_error("Input invalid argc");
 	fd = get_file_fd(argv[1]);
 	init_game(&game, fd);
-	init_coordinates(&game); // game_init
+	init_coordinates(&game);
 	init_window(&game);
 	init_img(&game);
 	mlx_hook(game.win, X_EVENT_KEY_PRESS, 0, &deal_key, &game);
 	mlx_hook(game.win, X_EVENT_KEY_EXIT, 0, &exit_event, &game);
 	mlx_loop_hook(game.mlx, &main_loop, &game);
 	mlx_loop(game.mlx);
-	free_all_data(&game, 0); // fixed
+	free_all_data(&game, 0);
 }
-
-/*-------------------------------------------------------------------*/

@@ -1,27 +1,27 @@
 #include "../include/cub3d.h"
 
-void cast_one_ray(t_game *g, int x)
+void	cast_one_ray(t_game *g, int x)
 {
-	t_texture wall_tex;
+	t_texture	wall_tex;
 
 	ray_cal_init(g, x);
 	dda(g);
 	getdrawpoint(g);
 	wall_tex = get_texture(g);
-	g->wall_data = (t_ui *)mlx_get_data_addr(wall_tex.texture.img,
-																					 &(wall_tex.texture.bpp), &(wall_tex.texture.size_l),
-																					 &(wall_tex.texture.endian)); // 이런거를 잘 모르겠다 스바
+	g->wall_data = (t_ui *)mlx_get_data_addr(wall_tex.texture.img, \
+	&(wall_tex.texture.bpp), &(wall_tex.texture.size_l), \
+	&(wall_tex.texture.endian)); // 이런거를 잘 모르겠다 스바
 	cal_texture(g, wall_tex);
 	drawline(g, wall_tex, x);
 }
 
-int main_loop(t_game *g)
+int	main_loop(t_game *g)
 {
-	int x;
+	int	x;
 
 	mlx_clear_window(g->mlx, g->win);
-	g->screen_data = (t_ui *)mlx_get_data_addr(g->screen.img, &(g->screen.bpp),
-																						 &(g->screen.size_l), &(g->screen.endian));
+	g->screen_data = (t_ui *)mlx_get_data_addr(g->screen.img, &(g->screen.bpp), \
+	&(g->screen.size_l), &(g->screen.endian));
 	draw_background(g);
 	// g->minimap_data = (t_ui *)mlx_get_data_addr(g->minimap.img,
 	//		&(g->minimap.bpp), &(g->minimap.size_l), &(g->minimap.endian));
