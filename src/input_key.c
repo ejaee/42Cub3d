@@ -6,7 +6,7 @@
 /*   By: bcho <bcho@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 17:13:03 by bcho              #+#    #+#             */
-/*   Updated: 2023/05/25 17:13:04 by bcho             ###   ########.fr       */
+/*   Updated: 2023/05/26 16:27:26 by bcho             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ int	deal_key(int key_code, t_game *game)
 	else if (key_code == KEY_D)
 		parallel_move(game, -M_PI_2);
 	else if (key_code == KEY_RIGHT)
-		rotate_move(game, -R_UNIT);
+		rotate_move(game, -R_UNIT * 0.1f);
 	else if (key_code == KEY_LEFT)
-		rotate_move(game, R_UNIT);
+		rotate_move(game, R_UNIT * 0.1f);
 	return (0);
 }
 
@@ -39,7 +39,7 @@ int	moveable(t_game *game, double nx, double ny)
 	x = (int)nx;
 	y = (int)ny;
 	if (x < 0 || y < 0 || x >= game->map.row || y >= game->map.col)
-		return (1);
+		return (0);
 	if (game->map.saved_map[x][y] > '0')
 		return (0);
 	else
@@ -48,15 +48,17 @@ int	moveable(t_game *game, double nx, double ny)
 
 void	parallel_move(t_game *g, double angle)
 {
-	double	nx;
-	double	ny;
+	double	y;
+	double	x;
 
-	nx = g->px + (g->dirx * cos(angle) - g->diry * sin(angle)) * M_UNIT;
-	ny = g->py + (g->dirx * sin(angle) + g->diry * cos(angle)) * M_UNIT;
-	if (!moveable(g, nx, ny))
-		return ;
-	g->px = nx;
-	g->py = ny;
+	y = (g->py);
+	x = (g->px + (g->dirx * cos(angle) - g->diry * sin(angle)) * M_UNIT);
+	if (moveable(g, x, y))
+		g->px = x;
+	y = (g->py + (g->dirx * sin(angle) + g->diry * cos(angle)) * M_UNIT);
+	x = (g->px);
+	if (moveable(g, x, y))
+		g->py = y;
 }
 
 void	rotate_move(t_game *g, double angle)
