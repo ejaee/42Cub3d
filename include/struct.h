@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   struct.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ejachoi <ejachoi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/27 19:23:53 by ejachoi           #+#    #+#             */
+/*   Updated: 2023/05/27 19:27:31 by ejachoi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef STRUCT_H
 # define STRUCT_H
 
@@ -7,9 +19,9 @@
 ** =============================================================================
 */
 
-#include "get_next_line/get_next_line.h"
-#include "libft/libft.h"
-#include "minilibx_opengl_20191021/mlx.h"
+# include "get_next_line/get_next_line.h"
+# include "libft/libft.h"
+# include "minilibx_opengl_20191021/mlx.h"
 
 /*
 ** =============================================================================
@@ -17,11 +29,10 @@
 ** =============================================================================
 */
 
-#include <math.h>
-#include <fcntl.h>
-#include <string.h>
-
-                #include <stdio.h>
+# include <math.h>
+# include <fcntl.h>
+# include <string.h>
+# include <stdbool.h>
 
 /*
 ** =============================================================================
@@ -66,8 +77,8 @@
 
 # define SCREEN_WIDTH 1920
 # define SCREEN_HEIGHT 1080
-# define M_UNIT 0.1		// 이동단위
-# define R_UNIT M_PI_4 // 회전단위 
+# define M_UNIT 0.1
+# define R_UNIT M_PI_4
 
 # define X_EVENT_KEY_PRESS 2
 # define X_EVENT_KEY_EXIT 17
@@ -83,112 +94,101 @@
 # define KEY_W 13
 # define KEY_F 3
 
-typedef enum
-{
-	false = 0,
-	true = 1
-} bool;
-
-
-
-typedef unsigned int t_ui;
+typedef unsigned int	t_ui;
 
 typedef struct s_img
 {
-	int ceil_color;
-	int floor_color;
-} t_img;
+	int		ceil_color;
+	int		floor_color;
+}	t_img;
 
 typedef struct s_img2
 {
-	void *img;
-	unsigned int *data;
-	int size_l;
-	int bpp;
-	int endian;
+	void			*img;
+	unsigned int	*data;
+	int				size_l;
+	int				bpp;
+	int				endian;
 
-} t_img2;
+}	t_img2;
 
 typedef struct s_player
 {
-	char starting_initial;
-	double y;
-	double x;
-	double dirx;
-	double diry;
+	char	starting_initial;
+	double	y;
+	double	x;
+	double	dirx;
+	double	diry;
 
-} t_player;
+}	t_player;
 
 typedef struct s_texture
 {
-	char *tex_path_malloc;
-	unsigned int *data;
-	t_img2 texture;
-	int width;
-	int height;
-} t_texture;
+	char			*tex_path_malloc;
+	unsigned int	*data;
+	t_img2			texture;
+	int				width;
+	int				height;
+}	t_texture;
 
 typedef struct s_map
 {
-	
-	t_player player;
-	char *map_value;
-	char **saved_map;
-	int row;
-	int col;
+	t_player	player;
+	char		*map_value;
+	char		**saved_map;
+	int			row;
+	int			col;
 
-} t_map;
+}	t_map;
 
 typedef struct s_game
 {
-	void *mlx;
-	void *win;
-	t_map map;
-	t_img img;
-	t_texture tex[5];
+	void		*mlx;
+	void		*win;
+	t_map		map;
+	t_img		img;
+	t_texture	tex[5];
 
-	t_img2 wall;
-	t_ui *wall_data;
-	t_img2 screen;
-	t_ui *screen_data;
+	t_img2		wall;
+	t_ui		*wall_data;
+	t_img2		screen;
+	t_ui		*screen_data;
 
-	double px;
-	double py;
-	double dirx;
-	double diry;
-	double planex;
-	double planey;
+	double		px;
+	double		py;
+	double		dirx;
+	double		diry;
+	double		planex;
+	double		planey;
 
-	double camerax;
-	double raydirx;
-	double raydiry;
-	int mapx;
-	int mapy;
-	double sidedistx;
-	double sidedisty;
-	double deltadistx;
-	double deltadisty;
-	double perpwalldist;
-	int stepx;
-	int stepy;
-	int hit;
-	int side;
-	int lineheight;
-	int drawstart;
-	int drawend;
+	double		camerax;
+	double		raydirx;
+	double		raydiry;
+	int			mapx;
+	int			mapy;
+	double		sidedistx;
+	double		sidedisty;
+	double		deltadistx;
+	double		deltadisty;
+	double		perpwalldist;
+	int			stepx;
+	int			stepy;
+	int			hit;
+	int			side;
+	int			lineheight;
+	int			drawstart;
+	int			drawend;
 
-	double wallx;
-	int texx;
-	int texy;
+	double		wallx;
+	int			texx;
+	int			texy;
 
-	double step;
-	double texpos;
-	int miniw;
-	int minih;
-	int gridw;
-	int gridh;
+	double		step;
+	double		texpos;
+	int			miniw;
+	int			minih;
+	int			gridw;
+	int			gridh;
+}	t_game;
 
-} t_game;
-
-
-# endif
+#endif
