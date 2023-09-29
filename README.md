@@ -9,3 +9,7 @@ begin cube3d
 ### run
 
 
+
+https://github.com/ejaee/42Cub3d/assets/87407504/9e1f1d7c-ef14-4bda-a7ef-f0dd8c615972
+
+
